@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hola que tal</title>
+    <style>
+        /* Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Fondo por defecto (OFF) */
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #2f567f;
+            font-family: "Pangolin";
+            transition: background-color 0.3s ease;
+            flex-direction: column;
+        }
+
+        /* Fondo cuando está en ON */
+        body.on-bg {
+            background-color: #723ccb;
+        }
+
+        .center-el {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+        }
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        /* Checkbox ON/OFF button */
+        label {
+            width: 130px;
+            height: 55px;
+            background-color: #43a3a0;
+            display: inline-block;
+            border-radius: 30px;
+            cursor: pointer;
+            position: relative;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            color: white;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+
+        label span {
+            display: inline-block;
+            width: 50%;
+            text-align: center;
+        }
+
+        label::before {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #fff;
+            border-radius: 30px;
+            top: 50%;
+            left: 10px;
+            transform: translateY(-50%);
+            transition: all 0.5s;
+        }
+
+        input[type="checkbox"]:checked+label {
+            background-color: #e0b9e7;
+        }
+
+        input[type="checkbox"]:checked+label::before {
+            left: calc(100% - 50px);
+        }
+
+        /* Mostrar el botón cuando el checkbox esté activado */
+        .modal-btn {
+            display: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #43a3a0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="checkbox"]:checked~.modal-btn {
+            display: inline-block;
+            background-color: #e0b9e7;
+        }
+
+        .modal-btn:hover {
+            background-color: #36a392;
+        }
+
+        /* Ventana modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: block;
+        }
+
+        /* Fondo oscuro cuando el modal está activo */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .modal-overlay.active {
+            display: block;
+        }
+
+        .close-modal {
+            display: block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #f980a1;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        /* Estilo del footer */
+        footer {
+            background-color: #2f567f;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        /* Cambiar el color del footer en función de ON/OFF */
+        body.on-bg footer {
+            background-color: #723ccb;
+        }
+    </style>
+</head>
+
+<body>
+
+  
+    <div class="center-el">
+        <!-- Checkbox con etiquetas visibles ON/OFF -->
+        <input type="checkbox" id="check">
+        <label for="check">
+            <span>&#128128;</span><span>&#128140;</span>
+        </label>
+
+        <!-- Botón que aparece cuando el checkbox está en ON -->
+        <button class="modal-btn" id="openModalBtn"> Presiona aquí &#128075;&#127995 </button>
+    </div>
+
+    <!-- Fondo oscuro para el modal -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+
+    <!-- Ventana modal -->
+    <div class="modal" id="modal">
+        <h2> ¡Qué tal? &#128521; </h2>
+        <p>No suelo hablar mucho con las personas, prefiero mantenerme al margen.</p>
+        <p>Pero tu gesto desinteresado al ayudar al abuelo sin que te lo pidiera me llamó la atención. &#128522;</p>
+        <p>Esa calidez y bondad reflejan una humanidad poco común; honestamente eso me atrae mucho.</p>
+        <p>Si existe la posibilidad de conocerte más, sería increíble. Déjame saber &#128064;</p>
+        <p>Si no, lo entiendo, pero debía intentarlo.</p>
+        <p>En definitiva, lo más importante es que no solo eres hermosa por fuera, sino también de corazón, y eso es lo
+            que realmente me impactó.</p>
+        <p>Ten un grandioso día. &#127801;</p>
+
+  
+        <button class="close-modal" id="closeModalBtn">Por cierto mi nombre es <img style="width: 85px;" src="assets/img/YP_logo_blanco.png" alt="Yefferson Perez developer "> </button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; <span id="currentYear"></span> Designed by <a href="https://ypprogrammer.com/" target="_blank">
+            <img style="width: 85px;" src="assets/img/YP_logo_blanco.png" alt="Yefferson Perez developer "></a>
+    </footer>
+
+    <script>
+        // Elementos
+        const openModalBtn = document.getElementById('openModalBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const modal = document.getElementById('modal');
+        const modalOverlay = document.getElementById('modalOverlay');
+        const body = document.body;
+        const checkbox = document.getElementById('check');
+
+        // Abrir el modal
+        openModalBtn.addEventListener('click', () => {
+            modal.classList.add('active');
+            modalOverlay.classList.add('active');
+        });
+
+        // Cerrar el modal
+        closeModalBtn.addEventListener('click', () => {
+            modal.classList.remove('active');
+            modalOverlay.classList.remove('active');
+        });
+
+        // Cerrar el modal al hacer clic en el fondo oscuro
+        modalOverlay.addEventListener('click', () => {
+            modal.classList.remove('active');
+            modalOverlay.classList.remove('active');
+        });
+
+        // Cambiar el fondo de la página y el footer según el estado del checkbox
+        checkbox.addEventListener('change', () => {
+            if (checkbox.checked) {
+                body.classList.add('on-bg');
+            } else {
+                body.classList.remove('on-bg');
+            }
+        });
+
+        // Mostrar el año actual en el footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+
+</body>
+
+</html>
